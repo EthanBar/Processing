@@ -1,13 +1,13 @@
-float pr;
-float ph;
+float px;
+float py;
 boolean first = true;
 void setup(){
   size(600,600);
   background(0);
   colorMode(HSB, 100);
   strokeWeight(2);
-  pr = 0;
-  ph = 0;
+  px = mouseX;
+  py = mouseY;
 }
 
 void draw() {
@@ -28,26 +28,17 @@ void draw() {
     }
     for (int i=1; i <= lines; i++){    
       float trad = rad - (cl*i);
-      float tprad = pr - (cl*i);
       float tx = (hgt) * cos(radians(trad));
       float ty = (hgt) * sin(radians(trad));
-      float ppx = (ph) * cos(radians(tprad));
-      float ppy = (ph) * sin(radians(tprad));
-      line(tx, ty, ppx, ppy);
+      line(tx, ty, px, py);
     }
     float tx = (hgt) * cos(radians(rad));
     float ty = (hgt) * sin(radians(rad));
-    pr = rad;
-    ph = hgt;
+    px = tx;
+    py = ty;
   } else if (mousePressed == true){
-    float rad = 0;
-    if (mouseY - height/2 < 0) {
-      rad = (abs(degrees(atan2(mouseY-(height/2), mouseX-(width/2))))); // It works?
-    } else {
-      rad = (360 - degrees(atan2(mouseY-(height/2), mouseX-(width/2)))); // Thanks trig
-    }
-    pr = rad;
-    ph = sqrt(mx * mx + my * my);
+    px = mx;
+    py = my;
     first = false;
   } else {
     first = true;
