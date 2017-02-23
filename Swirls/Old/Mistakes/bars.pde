@@ -1,7 +1,6 @@
 // Global variables
 float pr;
 float ph;
-int lines = 20;
 boolean first = true; // Don't draw a line when the user clicks again
 
 void setup(){
@@ -19,10 +18,10 @@ void draw() {
   float mx = map(mouseX, 0, width, -width/2, width/2);
   float my = map(mouseY, 0, height, -height/2, height/2);
   if (mousePressed == true && !first) {
-    cursor(HAND);
     float colar = map(abs(mx) + abs(my), 0, (width + height), 0, 250);
     stroke(colar, 100, 100);
     float hgt = sqrt(mx * mx + my * my); // Pythagorean theorem
+    int lines = 1;
     float cl = 360/lines;
     float rad = getRad();
     for (int i=1; i <= lines; i++){    
@@ -30,22 +29,24 @@ void draw() {
       float tprad = pr - (cl*i);
       float ty = (hgt) * cos(radians(trad));
       float tx = (hgt) * sin(radians(trad));
-      float ppy = (ph) * cos(radians(tprad));
-      float ppx = (ph) * sin(radians(tprad));
+      float ppx = (ph) * cos(radians(tprad));
+      float ppy = (ph) * sin(radians(tprad));
+      println(tx, ty);
+      if (tx >= 0 && ty >= 0){
+        tx = -tx;
+        ty = -ty;
+      }
       line(tx, ty, ppx, ppy);
-      println(i);
     }
     pr = rad;
     ph = hgt;
   } else if (mousePressed == true){
-    cursor(HAND);
     float rad = getRad();
     pr = rad;
     ph = sqrt(mx * mx + my * my);
     first = false;
   } else {
     first = true;
-    cursor(ARROW);
   }
   
 }
@@ -53,13 +54,12 @@ void draw() {
 public float getRad(){
   float rad;
   if (mouseY - height/2 < 0) {
+    rad = (abs(degrees(atan2(mouseX-(height/2), mouseY-(width/2))))); // It works?
     if (mouseX - width/2 < 0){
       rad = (360 - abs(degrees(atan2(mouseX-(height/2), mouseY-(width/2)))));
-    } else {
-      rad = (abs(degrees(atan2(mouseX-(height/2), mouseY-(width/2))))); // It works?
     }
   } else {
-    rad = (360 - degrees(atan2(-(mouseX-(height/2)), mouseY-(width/2)))); // Thanks trig
+    rad = (360 - degrees(atan2(mouseX-(height/2), mouseY-(width/2)))); // Thanks trig
   }
   return rad;
 }
@@ -67,16 +67,6 @@ public float getRad(){
 void keyPressed() {
   if ((key == 'R') || (key == 'r')) {
     background(0);
-  }
-  if (keyCode == UP) {
-    lines += 1;
-    println(lines);
-  }
-  if (keyCode == DOWN) {
-    if (lines > 1) {
-    lines -= 1;
-    println(lines);
-    }
   }
 }
 
