@@ -1,7 +1,7 @@
 // Global variables
 float pr;
 float ph;
-int lines = 20;
+int lines = 30;
 boolean first = true; // Don't draw a line when the user clicks again
 
 void setup(){
